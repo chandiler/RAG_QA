@@ -1,0 +1,68 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env/
+env/
+.venv/
+ENV/
+env.bak/
+
+# Jupyter / IPython
+.ipynb_checkpoints
+*.ipynb_checkpoints
+
+# Mac / Windows
+.DS_Store
+Thumbs.db
+
+# Logs / Temp
+*.log
+*.tmp
+*.swp
+*.bak
+*.idea/
+*.vscode/
+*.pytest_cache/
+
+# Build / Distribution
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# =========================
+# Project-specific
+# =========================
+# Local config and secrets
+.env
+.env.*
+config.json
+config_local.json
+
+# Data & cache
+data/raw/
+data/temp/
+data/cache/
+*.csv~
+*.json~
+
+# Generated outputs
+*.pdf
+*.docx
+*.xlsx
+*.pptx
+
+# =========================
+# System / OS files
+# =========================
+# Linux / macOS temp files
+*~
+.Trash
+.swp
+.swo

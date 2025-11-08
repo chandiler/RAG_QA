@@ -1,0 +1,448 @@
+[
+  {
+    "Platform": "Google Drive",
+    "PaymentFrequency": [
+      "Monthly",
+      "Annual"
+    ],
+    "AvailableStorageOptions": [
+      "15 GB",
+      "100 GB",
+      "2 TB"
+    ],
+    "UpgradePaths": "Supports upgrade/downgrade at any time, prorated daily",
+    "FileTypesSupported": [
+      "Documents",
+      "Photos",
+      "Videos",
+      "Large Files"
+    ],
+    "Notes": "Supports upload of single files up to 5TB (non-Google formats)",
+    "PlatformCompatibility": {
+      "Integrations": [
+        "Google Photos",
+        "Gmail",
+        "Google Workspace"
+      ]
+    },
+    "Plans": [
+      {
+        "PlanName": "Basic(15G)",
+        "Storage": "15 GB",
+        "Features": [
+          "15 GB of storage"
+        ],
+        "PricingOptions": [
+          {
+            "PlanType": "Monthly",
+            "Price": "0"
+          },
+          {
+            "PlanType": "Annual",
+            "Price": "0"
+          }
+        ]
+      },
+      {
+        "PlanName": "Basic (100 GB)",
+        "Storage": "100 GB",
+        "Features": [
+          "100 GB of storage for Photos, Drive \u0026 Gmail"
+        ],
+        "PricingOptions": [
+          {
+            "PlanType": "Monthly",
+            "Price": "2.79"
+          },
+          {
+            "PlanType": "Annual",
+            "Price": "27.99"
+          }
+        ]
+      },
+      {
+        "PlanName": "Premium (2 TB)",
+        "Storage": "2 TB",
+        "Features": [
+          "2 TB of storage for Photos, Drive \u0026 Gmail",
+          "10% back in the Google Store",
+          "Google Workspace premium features"
+        ],
+        "PricingOptions": [
+          {
+            "PlanType": "Monthly",
+            "Price": "13.99"
+          },
+          {
+            "PlanType": "Annual",
+            "Price": "139.99"
+          }
+        ]
+      },
+      {
+        "PlanName": "Google AI Pro (2 TB)",
+        "Storage": "2 TB",
+        "Features": [
+          "2 TB of storage for Photos, Drive \u0026 Gmail",
+          "Gemini app with 2.5 Pro \u0026 limited access to Veo 3",
+          "Flow with limited access to Veo 3",
+          "Whisk with Veo 2",
+          "1,000 monthly AI credits",
+          "NotebookLM with higher limits",
+          "Gemini in Gmail, Docs, Vids \u0026 more",
+          "All other benefits in the Premium plan"
+        ],
+        "PricingOptions": [
+          {
+            "PlanType": "Monthly",
+            "Price": "26.99"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Platform": "Dropbox",
+    "PaymentFrequency": [
+      "Monthly",
+      "Annual"
+    ],
+    "AvailableStorageOptions": [
+      "2 TB",
+      "3 TB",
+      "5 TB",
+      "15 TB"
+    ],
+    "UpgradePaths": "Supports upgrade; some plans do not support downgrade",
+    "FileTypesSupported": [
+      "Documents",
+      "Photos",
+      "Videos"
+    ],
+    "Notes": "Free plan: web upload limit is 2GB per file",
+    "PlatformCompatibility": {
+      "Integrations": []
+    },
+    "Plans": [
+      {
+        "PlanName": "Plus",
+        "Storage": "2 TB",
+        "Features": [
+          "1 user",
+          "2 TB of storage",
+          "Stay connected across all devices",
+          "30 days to restore deleted files",
+          "Transfer files up to 50GB",
+          "Edit PDFs and get signatures"
+        ],
+        "PricingOptions": [
+          {
+            "PlanType": "Monthly",
+            "Price": "15.99"
+          },
+          {
+            "PlanType": "Annual",
+            "Price": "156"
+          }
+        ]
+      },
+      {
+        "PlanName": "Professional",
+        "Storage": "3 TB",
+        "Features": [
+          "1 user",
+          "3 TB of storage",
+          "Stay connected across all devices",
+          "180 days to restore deleted files",
+          "Transfer files up to 100GB",
+          "Edit PDFs and get signatures",
+          "Brand your files to share",
+          "Password protect files"
+        ],
+        "PricingOptions": [
+          {
+            "PlanType": "Monthly",
+            "Price": "27.99"
+          },
+          {
+            "PlanType": "Annual",
+            "Price": "279"
+          }
+        ]
+      },
+      {
+        "PlanName": "Standard",
+        "Storage": "5 TB",
+        "Features": [
+          "3+ users",
+          "5 TB of storage for the team",
+          "Stay connected across all devices",
+          "180 days  to restore deleted files",
+          "Transfer files up to 100 GB",
+          "Edit PDFs and get signatures",
+          "Brand your files to share",
+          "Password protect files",
+          "Get team folders for organization",
+          "Manage team sharing",
+          "Create groups and roles",
+          "Admin control"
+        ],
+        "PricingOptions": [
+          {
+            "PlanType": "Monthly",
+            "Price": "25.0"
+          },
+          {
+            "PlanType": "Annual",
+            "Price": "252"
+          }
+        ]
+      },
+      {
+        "PlanName": "Advanced",
+        "Storage": "15 TB",
+        "Features": [
+          "3+ users",
+          "Starts at 15 TB for the team",
+          "Stay connected across all devices",
+          "1 year to restore deleted files",
+          "Transfer files up to 100 GB",
+          "Edit PDFs and get signatures",
+          "Brand your files to share",
+          "Password protect files",
+          "Get team folders for organization",
+          "Manage team sharing",
+          "Create groups and roles",
+          "Tiered-admin management",
+          "End-to-end encryption",
+          "Advanced key management",
+          "Compliance tracking",
+          "Single sign-on"
+        ],
+        "PricingOptions": [
+          {
+            "PlanType": "Monthly",
+            "Price": "39.5"
+          },
+          {
+            "PlanType": "Annual",
+            "Price": "396"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Platform": "OneDrive",
+    "PaymentFrequency": [
+      "Monthly",
+      "Annual"
+    ],
+    "AvailableStorageOptions": [
+      "6 TB",
+      "1 TB",
+      "100 GB",
+      "5 GB"
+    ],
+    "UpgradePaths": "Supports upgrade and downgrade through Microsoft Account",
+    "FileTypesSupported": [
+      "Documents",
+      "Photos",
+      "Videos"
+    ],
+    "Notes": "Business plans require minimum 1–3 users, depending on tier",
+    "PlatformCompatibility": {
+      "Integrations": []
+    },
+    "Plans": [
+      {
+        "PlanName": "Microsoft 365 Family",
+        "Storage": "6 TB",
+        "Features": [
+          "For up to six people",
+          "Up to five devices at once per person",
+          "Works on PC, Mac, iPhone, iPad, and Android phones and tablets",
+          "Up to 6 TB of cloud storage, 1 TB (1,000 GB) per person",
+          "Up to 600 GB of mailbox storage (100 GB per person)2",
+          "Word, Excel,3 PowerPoint, Outlook,4 and OneNote desktop apps with Microsoft Copilot5",
+          "AI-powered image creation and editing with Microsoft Designer5",
+          "Clipchamp video editor with premium filters and effects",
+          "Ad-free Outlook and mobile email and calendar with advanced security features",
+          "Microsoft Defender advanced security for your personal data and devices",
+          "OneDrive ransomware protection for your photos and files",
+          "Ongoing support for help when you need it"
+        ],
+        "PricingOptions": [
+          {
+            "PlanType": "Annual",
+            "Price": "145.0"
+          },
+          {
+            "PlanType": "Monthly",
+            "Price": "14.5"
+          }
+        ]
+      },
+      {
+        "PlanName": "Microsoft 365 Personal",
+        "Storage": "1 TB",
+        "Features": [
+          "For one person",
+          "Up to five devices at once",
+          "Works on PC, Mac, iPhone, iPad, and Android phones and tablets",
+          "1 TB, expandable up to 10 TB of cloud storage",
+          "100 GB of mailbox storage2",
+          "Word, Excel,3 PowerPoint, Outlook,4 and OneNote desktop apps with Microsoft Copilot5",
+          "AI-powered image creation and editing with Microsoft Designer5",
+          "Clipchamp video editor with premium filters and effects",
+          "Ad-free Outlook and mobile email and calendar with advanced security features",
+          "Microsoft Defender advanced security for your personal data and devices",
+          "OneDrive ransomware protection for your photos and files",
+          "Ongoing support for help when you need it"
+        ],
+        "PricingOptions": [
+          {
+            "PlanType": "Annual",
+            "Price": "115.0"
+          },
+          {
+            "PlanType": "Monthly",
+            "Price": "11.5"
+          }
+        ]
+      },
+      {
+        "PlanName": "Microsoft 365 Basic",
+        "Storage": "100 GB",
+        "Features": [
+          "For one person",
+          "100 GB of cloud storage",
+          "100 GB of mailbox storage2",
+          "Works on Windows, macOS, iOS, and Android",
+          "Web and mobile versions of Word, Excel, PowerPoint, OneNote, OneDrive, and other apps",
+          "Ad-free Outlook and mobile email and calendar with advanced security features",
+          "OneDrive ransomware protection for your files and photos",
+          "Ongoing support for help when you need it"
+        ],
+        "PricingOptions": [
+          {
+            "PlanType": "Annual",
+            "Price": "19.0"
+          },
+          {
+            "PlanType": "Monthly",
+            "Price": "2.0"
+          }
+        ]
+      },
+      {
+        "PlanName": "Microsoft 365",
+        "Storage": "5 GB",
+        "Features": [
+          "For one person",
+          "5 GB of cloud storage",
+          "15 GB of mailbox storage2",
+          "Works on Windows, macOS, iOS, and Android",
+          "OneDrive photo and file backup across your devices",
+          "Outlook.com email and calendar",
+          "Web and mobile versions of Word, Excel, PowerPoint, OneNote, OneDrive, and other apps"
+        ],
+        "PricingOptions": [
+          {
+            "PlanType": "Annual",
+            "Price": "0"
+          },
+          {
+            "PlanType": "Monthly",
+            "Price": "0"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Platform": "Box",
+    "PaymentFrequency": [
+      "Monthly",
+      "Annual"
+    ],
+    "AvailableStorageOptions": [
+      "10 GB",
+      "100 GB"
+    ],
+    "UpgradePaths": "Supports upgrading online via Box account",
+    "FileTypesSupported": [
+      "Documents",
+      "Photos",
+      "Videos",
+      "Audio"
+    ],
+    "Notes": "Free plan has limited integrations; paid plans include Microsoft 365 and G Suite support",
+    "PlatformCompatibility": {
+      "Integrations": []
+    },
+    "Plans": [
+      {
+        "PlanName": "Individual",
+        "Storage": "10 GB",
+        "Features": [
+          "10 GB of storage",
+          "250 MB file upload limit",
+          "1 file version",
+          "Box Sign: 5 docs for e-sign per month"
+        ],
+        "PricingOptions": [
+          {
+            "PlanType": "Annual",
+            "Price": "0"
+          },
+          {
+            "PlanType": "Monthly",
+            "Price": "0"
+          }
+        ]
+      },
+      {
+        "PlanName": "Personal Pro",
+        "Storage": "100 GB",
+        "Features": [
+          "100 GB of storage",
+          "5 GB file upload",
+          "10 file versions",
+          "Box Sign: 15 docs for e-sign per month; Unlimited templates"
+        ],
+        "PricingOptions": [
+          {
+            "PlanType": "Annual",
+            "Price": "168"
+          },
+          {
+            "PlanType": "Monthly",
+            "Price": "19"
+          }
+        ]
+      },
+      {
+        "PlanName": "Business Starter",
+        "Storage": "100 GB",
+        "Features": [
+          "100 GB of storage",
+          "2 GB file upload",
+          "25 file versions",
+          "Box Sign: 10 docs for e-sign per user per month; Unlimited templates",
+          "Technical Support during local business hours"
+        ],
+        "PricingOptions": [
+          {
+            "PlanType": "Annual",
+            "Price": "84"
+          },
+          {
+            "PlanType": "Monthly",
+            "Price": "9"
+          }
+        ]
+      }
+    ]
+  }
+]
