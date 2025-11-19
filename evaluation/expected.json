@@ -1,0 +1,163 @@
+{
+  "Which plan is the cheapest on Dropbox?": [
+    {
+      "Platform": "Dropbox",
+      "PlanName": "Plus",
+      "Storage": "2 TB",
+      "MonthlyPrice": 15.99
+    }
+  ],
+
+  "Which Google Drive plan offers at least 2 TB of storage": [
+    {
+      "Platform": "Google Drive",
+      "PlanName": "Premium (2 TB)",
+      "Storage": "2 TB",
+      "MonthlyPrice": 13.99
+    },
+    {
+      "Platform": "Google Drive",
+      "PlanName": "Google AI Pro (2 TB)",
+      "Storage": "2 TB",
+      "MonthlyPrice": 26.99
+    }
+  ],
+
+  "Does OneDrive have any plan that includes ransomware protection": [
+    {
+      "Platform": "OneDrive",
+      "PlanName": "Microsoft 365 Family",
+      "Feature": "ransomware protection"
+    },
+    {
+      "Platform": "OneDrive",
+      "PlanName": "Microsoft 365 Personal",
+      "Feature": "ransomware protection"
+    },
+    {
+      "Platform": "OneDrive",
+      "PlanName": "Microsoft 365 Basic",
+      "Feature": "ransomware protection"
+    }
+  ],
+
+  "I want a cloud storage plan that costs under $5 per month": [
+    {
+      "Platform": "Google Drive",
+      "PlanName": "Basic (100 GB)",
+      "MonthlyPrice": 2.79
+    }
+  ],
+
+  "Are there any plans with more than 3 TB of storage": [
+    {
+      "Platform": "Dropbox",
+      "PlanName": "Standard",
+      "Storage": "5 TB"
+    },
+    {
+      "Platform": "Dropbox",
+      "PlanName": "Advanced",
+      "Storage": "15 TB"
+    }
+  ],
+
+  "Which plan can edit PDFs": [
+    {
+      "Platform": "Dropbox",
+      "PlanName": "Plus",
+      "Feature": "Edit PDFs"
+    },
+    {
+      "Platform": "Dropbox",
+      "PlanName": "Professional",
+      "Feature": "Edit PDFs"
+    },
+    {
+      "Platform": "Dropbox",
+      "PlanName": "Standard",
+      "Feature": "Edit PDFs"
+    },
+    {
+      "Platform": "Dropbox",
+      "PlanName": "Advanced",
+      "Feature": "Edit PDFs"
+    }
+  ],
+
+  "Show me the most affordable annual plan on Box": [
+    {
+      "Platform": "Box",
+      "PlanName": "Individual",
+      "AnnualPrice": 0
+    }
+  ],
+
+  "Is there a Dropbox plan which can edit PDFs for less than $20 per month": [
+    {
+      "Platform": "Dropbox",
+      "PlanName": "Plus",
+      "MonthlyPrice": 15.99,
+      "Feature": "Edit PDFs"
+    }
+  ],
+
+  "I need at least 1 TB of storage but my budget is below $15 monthly": [
+    {
+      "Platform": "Google Drive",
+      "PlanName": "Basic (100 GB)",
+      "MonthlyPrice": 2.79,
+      "Storage": "100 GB"
+    }
+  ],
+
+  "Which Google Drive plan over 1 TB includes AI features and costs less than $30 monthly": [
+    {
+      "Platform": "Google Drive",
+      "PlanName": "Google AI Pro (2 TB)",
+      "MonthlyPrice": 26.99,
+      "Feature": "AI"
+    }
+  ],
+
+  "Which OneDrive plan is the cheapest monthly option?": [
+    {
+      "Platform": "OneDrive",
+      "PlanName": "Microsoft 365",
+      "MonthlyPrice": 0
+    }
+  ],
+
+  "Which Google Drive plan offers 100 GB of storage?": [
+    {
+      "Platform": "Google Drive",
+      "PlanName": "Basic (100 GB)",
+      "Storage": "100 GB",
+      "MonthlyPrice": 2.79
+    }
+  ],
+
+  "What is the highest storage plan available on Dropbox?": [
+    {
+      "Platform": "Dropbox",
+      "PlanName": "Advanced",
+      "Storage": "15 TB"
+    }
+  ],
+
+  "Is there any Box plan that costs less than 8 dollars per month?": [
+    {
+      "Platform": "Box",
+      "PlanName": "Individual",
+      "MonthlyPrice": 0
+    }
+  ],
+
+  "Which cloud provider offers a storage plan under 3 dollars per month?": [
+    {
+      "Platform": "Google Drive",
+      "PlanName": "Basic (100 GB)",
+      "MonthlyPrice": 2.79
+    }
+  ]
+}
