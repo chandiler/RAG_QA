@@ -9,7 +9,7 @@ def load_data(path="data/cloud_storage.json"):
 
 def parse_storage_to_gb(storage_str):
     """
-    将 '2 TB' / '100 GB' 转为 GB 数字
+    Convert '2 TB' / '100 GB' to GB number
     """
     if not storage_str:
         return None
@@ -32,11 +32,11 @@ def retrieve_info(parsed):
     storage_cond = parsed.get("Storage", {})
     feature = parsed.get("Feature")
 
-    # --- 1) 平台过滤 ---
+    # --- 1) Platform filtering ---
     if platform:
         platforms = [p for p in data if p["Platform"] == platform]
     else:
-        platforms = data[:]  # 搜索所有平台
+        platforms = data[:]  # Search all platforms
 
     candidates = []
 
@@ -78,7 +78,7 @@ def retrieve_info(parsed):
             if price_cond and not valid_pricing:
                 continue
 
-            # 用匹配到的最便宜 pricing 作为排序依据
+            # Use the cheapest matched pricing as sorting basis
             if valid_pricing:
                 best = min(valid_pricing, key=lambda x: float(x["Price"]))
             else:
@@ -89,7 +89,7 @@ def retrieve_info(parsed):
     if not candidates:
         return None
 
-    # 按价格升序排序
+    # Sort by price in ascending order
     candidates.sort(key=lambda x: float(x[2]["Price"]))
 
     platform, plan, opt = candidates[0]
