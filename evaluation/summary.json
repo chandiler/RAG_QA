@@ -1,15 +1,15 @@
 {
   "total_questions": 15,
-  "retrieval_accuracy_percent": 53.33,
-  "retrieval_success_percent": 93.33,
-  "parser_consistency_percent": 73.33,
-  "retrieval_consistency_percent": 80.0,
+  "retrieval_accuracy_percent": 46.67,
+  "retrieval_success_percent": 86.67,
+  "parser_consistency_percent": 66.67,
+  "retrieval_consistency_percent": 86.67,
   "hallucination_rate_llm_only_percent": 100.0,
   "hallucination_rate_rag_percent": 100.0,
-  "avg_completeness_llm_only": 0.277,
-  "avg_completeness_rag": 0.633,
-  "avg_parse_latency": 1.7144,
-  "avg_retrieve_latency": 0.0012,
-  "avg_llm_generate_latency": 6.4443,
-  "avg_rag_generate_latency": 2.047
+  "avg_completeness_llm_only": 0.323,
+  "avg_completeness_rag": 0.722,
+  "avg_parse_latency": 1.3886,
+  "avg_retrieve_latency": 0.0013,
+  "avg_llm_generate_latency": 1.399,
+  "avg_rag_generate_latency": 2.2677
 }

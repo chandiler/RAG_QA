@@ -36,7 +36,7 @@
       "Price": 14.5,
       "PlanType": "Monthly",
       "Storage": "6 TB",
-      "FeatureMatch": "ransomware"
+      "FeatureMatch": "ransomware protection"
     },
     {
       "Platform": "OneDrive",
@@ -44,15 +44,15 @@
       "Price": 11.5,
       "PlanType": "Monthly",
       "Storage": "1 TB",
-      "FeatureMatch": "ransomware"
+      "FeatureMatch": "ransomware protection"
     },
     {
       "Platform": "OneDrive",
       "PlanName": "Microsoft 365 Basic",
-      "Price": 0.0,
+      "Price": 2.0,
       "PlanType": "Monthly",
-      "Storage": "5 GB",
-      "FeatureMatch": "ransomware"
+      "Storage": "100 GB",
+      "FeatureMatch": "ransomware protection"
     }
   ],
 
@@ -63,6 +63,22 @@
       "Price": 0.0,
       "PlanType": "Monthly",
       "Storage": "15 GB",
+      "FeatureMatch": null
+    },
+    {
+      "Platform": "OneDrive",
+      "PlanName": "Microsoft 365",
+      "Price": 0.0,
+      "PlanType": "Monthly",
+      "Storage": "5 GB",
+      "FeatureMatch": null
+    },
+    {
+      "Platform": "Box",
+      "PlanName": "Individual",
+      "Price": 0.0,
+      "PlanType": "Annual",
+      "Storage": "10 GB",
       "FeatureMatch": null
     }
   ],
@@ -75,6 +91,22 @@
       "PlanType": "Monthly",
       "Storage": "6 TB",
       "FeatureMatch": null
+    },
+    {
+      "Platform": "Dropbox",
+      "PlanName": "Standard",
+      "Price": 24.99,
+      "PlanType": "Monthly",
+      "Storage": "5 TB",
+      "FeatureMatch": null
+    },
+    {
+      "Platform": "Dropbox",
+      "PlanName": "Advanced",
+      "Price": 24.99,
+      "PlanType": "Monthly",
+      "Storage": "15 TB",
+      "FeatureMatch": null
     }
   ],
 
@@ -85,7 +117,31 @@
       "Price": 15.99,
       "PlanType": "Monthly",
       "Storage": "2 TB",
-      "FeatureMatch": "PDF"
+      "FeatureMatch": "PDF editing"
+    },
+    {
+      "Platform": "Dropbox",
+      "PlanName": "Professional",
+      "Price": 19.99,
+      "PlanType": "Monthly",
+      "Storage": "3 TB",
+      "FeatureMatch": "PDF editing"
+    },
+    {
+      "Platform": "Dropbox",
+      "PlanName": "Standard",
+      "Price": 24.99,
+      "PlanType": "Monthly",
+      "Storage": "5 TB",
+      "FeatureMatch": "PDF editing"
+    },
+    {
+      "Platform": "Dropbox",
+      "PlanName": "Advanced",
+      "Price": 24.99,
+      "PlanType": "Monthly",
+      "Storage": "15 TB",
+      "FeatureMatch": "PDF editing"
     }
   ],
 
@@ -130,6 +186,14 @@
       "PlanType": "Monthly",
       "Storage": "2 TB",
       "FeatureMatch": "AI"
+    },
+    {
+      "Platform": "Google Drive",
+      "PlanName": "Google AI Pro (2 TB)",
+      "Price": 26.99,
+      "PlanType": "Monthly",
+      "Storage": "2 TB",
+      "FeatureMatch": "AI"
     }
   ],
 
@@ -144,16 +208,7 @@
     }
   ],
 
-  "Which Google Drive plan offers 100 GB of storage?": [
-    {
-      "Platform": "Google Drive",
-      "PlanName": "Basic (100 GB)",
-      "Price": 2.79,
-      "PlanType": "Monthly",
-      "Storage": "100 GB",
-      "FeatureMatch": null
-    }
-  ],
+  "Which Google Drive plan offers 100 GB of storage?": [],
 
   "What is the highest storage plan available on Dropbox?": [
     {
@@ -171,7 +226,7 @@
       "Platform": "Box",
       "PlanName": "Individual",
       "Price": 0.0,
-      "PlanType": "Annual",
+      "PlanType": "Monthly",
       "Storage": "10 GB",
       "FeatureMatch": null
     }
@@ -180,10 +235,10 @@
   "Which cloud provider offers a storage plan under 3 dollars per month?": [
     {
       "Platform": "Google Drive",
-      "PlanName": "Basic (100 GB)",
-      "Price": 2.79,
+      "PlanName": "Basic(15G)",
+      "Price": 0.0,
       "PlanType": "Monthly",
-      "Storage": "100 GB",
+      "Storage": "15 GB",
       "FeatureMatch": null
     }
   ]
