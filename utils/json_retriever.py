@@ -102,5 +102,5 @@ def retrieve_info(parsed):
         "FeatureMatch": parsed.get("Feature"),
     }
 
-    print(f"[STEP 3] filtered result → {result}")
+    print(f"STEP 3- filtered result → {result}")
     return result

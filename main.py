@@ -9,10 +9,10 @@ def main():
         if q.lower() == "exit":
             break
 
-        print("\n[LLM-only answer]")
+        print("\n LLM-only answer")
         print(llm_only_answer(q))
 
-        print("\n[LLM+JSON answer]")
+        print("\n LLM+JSON answer")
         print(llm_with_json_answer(q))
 
         print("\n" + "=" * 60 + "\n")

@@ -61,9 +61,9 @@ def parse_with_llm(question):
     )
 
     raw = resp.choices[0].message.content.strip()
-    print(f"[DEBUG] raw semantic parse output: {raw}")
+    print(f"DEBUG -raw semantic parse output: {raw}")
 
-    # fallback 防止 JSON parsing 错误
+    # fallback prevent JSON parsing errors
     try:
         parsed = json.loads(raw)
     except Exception:
@@ -74,5 +74,5 @@ def parse_with_llm(question):
             "Feature": None,
         }
 
-    print(f"[STEP 1] semantic parse result → {parsed}")
+    print(f"STEP 1- semantic parse result → {parsed}")
     return parsed

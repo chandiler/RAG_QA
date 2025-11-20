@@ -7,11 +7,11 @@ import json
 def llm_with_json_answer(question):
     print("\n STEP 1: === Semantic Parsing ===")
     parsed = parse_with_llm(question)
-    print("[DEBUG] semantic parse →", parsed)
+    print("DEBUG- semantic parse →", parsed)
 
     print("\n STEP 2:=== JSON Retrieval ===")
     retrieved = retrieve_info(parsed)
-    print("[DEBUG] retrieved JSON slice →", retrieved)
+    print("DEBUG- retrieved JSON slice →", retrieved)
 
     if not retrieved:
         return "No matching data found."
@@ -23,7 +23,7 @@ def llm_with_json_answer(question):
         f"{json.dumps(retrieved, indent=2)}\n"
         "Generate a natural-language answer based on it."
     )
-    print("[DEBUG] prompt sent to GPT:\n", prompt)
+    print("DEBUG- prompt sent to GPT:\n", prompt)
     print("\n")
 
     resp = client.chat.completions.create(
