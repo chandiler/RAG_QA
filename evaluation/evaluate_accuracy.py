@@ -1,289 +1,355 @@
 # evaluation/evaluate_accuracy.py
+# Fully patched evaluation script following Sweatha's logic
+# Safe type handling, correct metrics, robust execution
+
 import sys
 import os
 import json
 import time
 import csv
+import re
 from pathlib import Path
+from typing import Any, Dict, List
 
-# Add project root to path
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 
-# Import models
-from models.llm_only import llm_only_answer
+from utils.semantic_parser import parse_with_llm
+from utils.json_retriever import retrieve_info
 from models.llm_with_json import llm_with_json_answer
+from models.llm_only import llm_only_answer
 
-# Paths
-QUESTIONS_PATH = Path("evaluation/questions.csv")
-EXPECTED_PATH = Path("evaluation/expected.json")
-OUTPUT_PATH = Path("evaluation/evaluation_results.csv")
-SUMMARY_PATH = Path("evaluation/summary.json")
+QUESTIONS_CSV = Path("evaluation/questions.csv")
+EXPECTED_JSON = Path("evaluation/expected.json")
+OUTPUT_CSV = Path("evaluation/evaluation_results.csv")
+SUMMARY_JSON = Path("evaluation/summary.json")
 
 
-# ============================================================
-# Utility: Load questions
-# ============================================================
-def load_questions():
-    questions = []
-    with open(QUESTIONS_PATH, "r", encoding="utf-8") as f:
+# ----------------------------- LOADING HELPERS ------------------------------
+
+def load_questions(path: Path) -> List[str]:
+    rows = []
+    with open(path, newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
-        for row in reader:
-            questions.append(row["question"])
-    return questions
+        for r in reader:
+            q = r.get("question") or r.get("Question")
+            if q:
+                rows.append(q.strip())
+    return rows
 
 
-# ============================================================
-# Load expected JSON results
-# ============================================================
-def load_expected():
-    with open(EXPECTED_PATH, "r", encoding="utf-8") as f:
+def load_expected(path: Path) -> Dict[str, List[Dict]]:
+    if not path.exists():
+        return {}
+    with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
-# ============================================================
-# Normalization utilities
-# ============================================================
-def normalize(obj):
-    """Normalize JSON to lowercase string values."""
-    if isinstance(obj, dict):
-        return {k.lower(): str(v).lower() for k, v in obj.items()}
-    return obj
+def normalize_value(v: Any) -> str:
+    if v is None:
+        return ""
+    return str(v).strip().lower()
 
 
-# ============================================================
-# Compare expected JSON retrieval with RAG answer
-# ============================================================
-def retrieval_matches(expected_list, answer_text):
-    """Check if expected JSON fields appear in answer."""
-    answer_lower = answer_text.lower()
+def normalize_obj(obj: Dict[str, Any]) -> Dict[str, str]:
+    return {k.lower(): normalize_value(v) for k, v in obj.items()}
 
-    # If expected empty and RAG answered empty → correct
-    if len(expected_list) == 0:
-        return "no matching" in answer_lower or answer_lower.strip() == ""
 
-    # Extract expected string fragments
-    expected_strings = []
-    for obj in expected_list:
-        norm = normalize(obj)
-        for _, val in norm.items():
-            expected_strings.append(val)
+def list_of_norm_strings_from_objs(objs: List[Dict[str, Any]]) -> List[str]:
+    vals = []
+    for o in objs:
+        if isinstance(o, dict):
+            no = normalize_obj(o)
+            for v in no.values():
+                vals.append(v)
+    return list(dict.fromkeys(vals))
 
-    expected_strings = list(set(expected_strings))
 
-    # If ANY expected field appears → count as match
-    for val in expected_strings:
-        if val in answer_lower:
+# ------------------------ MATCH EXPECTED RETRIEVAL -------------------------
+
+def retrieved_matches_expected(expected_list: List[Dict], retrieved) -> bool:
+
+    # Normalize to list of dicts
+    if retrieved is None:
+        retrieved_list = []
+    elif isinstance(retrieved, dict):
+        retrieved_list = [retrieved]
+    elif isinstance(retrieved, list):
+        retrieved_list = [x for x in retrieved if isinstance(x, dict)]
+    else:
+        retrieved_list = []
+
+    if not expected_list and not retrieved_list:
+        return True
+    if not expected_list and retrieved_list:
+        return False
+    if expected_list and not retrieved_list:
+        return False
+
+    norm_expected = [normalize_obj(e) for e in expected_list]
+    norm_retrieved = [normalize_obj(r) for r in retrieved_list]
+
+    for exp in norm_expected:
+        matched = False
+        for ret in norm_retrieved:
+            ok = True
+            for k, v in exp.items():
+                if v and v not in ret.get(k, ""):
+                    ok = False
+                    break
+            if ok:
+                matched = True
+                break
+        if not matched:
+            return False
+
+    return True
+
+
+# -------------------- HALLUCINATION DETECTOR (PATCHED) ----------------------
+
+def extract_factual_tokens(answer: str) -> List[str]:
+    text = (answer or "").lower()
+    tokens = set()
+
+    for m in re.findall(r"\$\s*\d+(\.\d+)?", text):
+        tokens.add(m)
+
+    for m in re.finditer(r"\d+(\.\d+)?\s*(tb|gb)", text):
+        tokens.add(m.group(0).strip())
+
+    for m in re.finditer(r"\b\d+(\.\d+)?\b", text):
+        tokens.add(m.group(0))
+
+    for w in re.findall(r"\b[a-z0-9\-_]{3,}\b", text):
+        tokens.add(w)
+
+    return [t.strip() for t in tokens]
+
+
+def detect_hallucination_from_answer(retrieved_objs, answer: str) -> bool:
+
+    # 🛑 SAFETY PATCH
+    if not isinstance(retrieved_objs, list):
+        retrieved_objs = []
+    else:
+        retrieved_objs = [r for r in retrieved_objs if isinstance(r, dict)]
+
+    answer = answer or ""
+    retrieved_tokens = set(list_of_norm_strings_from_objs(retrieved_objs))
+
+    if not retrieved_objs:
+        low = answer.lower()
+        if "no matching" in low or "not found" in low or low.strip() == "":
+            return False
+        return len(extract_factual_tokens(answer)) > 0
+
+    factual_tokens = extract_factual_tokens(answer)
+    if not factual_tokens:
+        return False
+
+    for t in factual_tokens:
+        if t in {"plan", "monthly", "price"}:
+            continue
+        matched = any(t in rv for rv in retrieved_tokens)
+        if not matched:
             return True
 
     return False
 
 
-# ============================================================
-# Detect hallucination
-# ============================================================
-def detect_hallucination(expected, rag_answer):
-    text = rag_answer.lower()
+# ---------------------- COMPLETENESS SCORE (PATCHED) -----------------------
 
-    # Case 1: expected empty set and model says "nothing found"
-    if len(expected) == 0:
-        if "no matching" in text or "no plan" in text or "not found" in text:
-            return False
-        else:
-            return True  # hallucination
+def completeness_fraction(retrieved_objs, answer: str) -> float:
 
-    # Extract expected fields
-    expected_values = []
-    for obj in expected:
-        for v in obj.values():
-            expected_values.append(str(v).lower())
+    # 🛑 SAFETY PATCH
+    if not isinstance(retrieved_objs, list):
+        retrieved_objs = []
+    else:
+        retrieved_objs = [o for o in retrieved_objs if isinstance(o, dict)]
 
-    # Hallucination keywords
-    keywords = ["tb", "gb", "$", " plan", "storage", "month"]
+    if not retrieved_objs:
+        return 1.0
 
-    for kw in keywords:
-        if kw in text:
-            # Check if kw matches ANY expected value
-            if not any(kw in ev for ev in expected_values):
-                return True
-
-    return False
-
-
-# ============================================================
-# Completeness score
-# ============================================================
-def completeness_score(expected, rag_answer):
-    """Count how many of expected fields appear in answer."""
-    if len(expected) == 0:
-        return 1
-
-    rag_lower = rag_answer.lower()
-
+    ans = (answer or "").lower()
     total = 0
     matched = 0
 
-    for obj in expected:
-        for _, val in obj.items():
+    for obj in retrieved_objs:
+        for k, v in obj.items():
             total += 1
-            if str(val).lower() in rag_lower:
+            if str(v).lower() in ans:
                 matched += 1
 
-    return round(matched / total, 2) if total > 0 else 1
+    return round(matched / total, 2) if total else 1.0
 
 
-# ============================================================
-# Latency wrapper
-# ============================================================
-def measure_latency(func, question):
-    start = time.time()
-    ans = func(question)
-    end = time.time()
-    return ans, end - start
+# ----------------------------- SAFE WRAPPERS -------------------------------
 
-
-# ============================================================
-# SAFE CALL WRAPPER — prevents crashes
-# ============================================================
-def safe_rag_call(question):
-    """
-    Runs RAG safely.
-    NEVER crashes evaluation.
-    """
+def safe_parse(q):
     try:
-        ans, lat = measure_latency(llm_with_json_answer, question)
-        return ans, lat, False  # no error
+        t0 = time.time()
+        out = parse_with_llm(q)
+        return out, time.time() - t0, None
     except Exception as e:
-        print("\n[ERROR] RAG FAILED for question:", question)
-        print("Reason:", e)
-        return "ERROR_RAG_FAILED", 0, True
+        return None, 0, e
 
 
-# ============================================================
-# MAIN EVALUATION LOGIC
-# ============================================================
+def safe_retrieve(parsed):
+    try:
+        t0 = time.time()
+        out = retrieve_info(parsed)
+        return out, time.time() - t0, None
+    except Exception as e:
+        return None, 0, e
+
+
+def safe_llm_only(q):
+    try:
+        t0 = time.time()
+        out = llm_only_answer(q)
+        return out, time.time() - t0, None
+    except Exception as e:
+        return None, 0, e
+
+
+def safe_rag(q):
+    try:
+        t0 = time.time()
+        out = llm_with_json_answer(q)
+        return out, time.time() - t0, None
+    except Exception as e:
+        return None, 0, e
+
+
+# ------------------------------ MAIN LOGIC --------------------------------
+
 def main():
-    questions = load_questions()
-    expected_data = load_expected()
+
+    questions = load_questions(QUESTIONS_CSV)
+    expected_map = load_expected(EXPECTED_JSON)
 
     results = []
-    metrics = {
+
+    stats = {
         "total": len(questions),
-        "accuracy_llm_only": 0,
-        "accuracy_rag": 0,
+        "correct_retrieval": 0,
+        "retrieval_success": 0,
+        "parser_consistency": 0,
+        "retrieval_consistency": 0,
         "hallucination_llm_only": 0,
         "hallucination_rag": 0,
-        "consistency_llm_only": 0,
-        "consistency_rag": 0,
-        "latencies_llm_only": [],
-        "latencies_rag": [],
-        "retrieval_success": 0,
         "completeness_llm_only": 0,
-        "completeness_rag": 0
+        "completeness_rag": 0,
     }
 
+    parse_lat = []
+    retr_lat = []
+    gen_llm_lat = []
+    gen_rag_lat = []
+
     for q in questions:
-        print("\n=====================================")
-        print("QUESTION:", q)
+        print("\n=== Question ===")
+        print(q)
 
-        expected = expected_data.get(q, [])
+        expected = expected_map.get(q, [])
 
-        # ----------------------------------------------------------
-        # LLM ONLY — Safe (no crash risk)
-        # ----------------------------------------------------------
-        llm_answers = []
-        llm_lats = []
-
-        for _ in range(3):
-            ans, lat = measure_latency(llm_only_answer, q)
-            llm_answers.append(ans)
-            llm_lats.append(lat)
-
-        llm_final = llm_answers[0]
-        metrics["latencies_llm_only"].extend(llm_lats)
-
-        metrics["accuracy_llm_only"] += int(retrieval_matches(expected, llm_final))
-        metrics["hallucination_llm_only"] += int(not retrieval_matches(expected, llm_final))
-        metrics["consistency_llm_only"] += int(llm_answers.count(llm_final) == 3)
-        metrics["completeness_llm_only"] += completeness_score(expected, llm_final)
-
-        # ----------------------------------------------------------
-        # RAG — SAFE WRAPPED
-        # ----------------------------------------------------------
-        rag_answers = []
-        rag_lats = []
-        rag_error = False
+        # Run parser & retriever 3 times to check consistency
+        parses = []
+        retrieves = []
+        p_times = []
+        r_times = []
 
         for _ in range(3):
-            ans, lat, err = safe_rag_call(q)
-            rag_answers.append(ans)
-            rag_lats.append(lat)
-            if err:
-                rag_error = True
+            p, pt, _ = safe_parse(q)
+            parses.append(json.dumps(p, sort_keys=True) if p else None)
+            p_times.append(pt)
 
-        rag_final = rag_answers[0]
-        metrics["latencies_rag"].extend(rag_lats)
+            if p is not None:
+                r, rt, _ = safe_retrieve(p)
+            else:
+                r, rt = None, 0
 
-        # RAG correctness
-        if not rag_error:
-            metrics["retrieval_success"] += 1
-            metrics["accuracy_rag"] += int(retrieval_matches(expected, rag_final))
-            metrics["hallucination_rag"] += int(detect_hallucination(expected, rag_final))
-            metrics["completeness_rag"] += completeness_score(expected, rag_final)
-            metrics["consistency_rag"] += int(rag_answers.count(rag_final) == 3)
-        else:
-            # RAG failed → mark as incorrect but not hallucination
-            metrics["accuracy_rag"] += 0
-            metrics["hallucination_rag"] += 0
-            metrics["completeness_rag"] += 0
-            metrics["consistency_rag"] += 0
+            if isinstance(r, dict):
+                retrieves.append([r])
+            elif isinstance(r, list):
+                retrieves.append([x for x in r if isinstance(x, dict)])
+            else:
+                retrieves.append([])
+            r_times.append(rt)
 
-        # store per-question result
+        # Consistency checks
+        if parses[0] == parses[1] == parses[2]:
+            stats["parser_consistency"] += 1
+
+        if retrieves[0] == retrieves[1] == retrieves[2]:
+            stats["retrieval_consistency"] += 1
+
+        rep_retrieved = retrieves[0] if retrieves[0] else []
+
+        if rep_retrieved:
+            stats["retrieval_success"] += 1
+
+        if retrieved_matches_expected(expected, rep_retrieved):
+            stats["correct_retrieval"] += 1
+
+        # LLM-only and RAG answers
+        llm_ans, llm_lat, _ = safe_llm_only(q)
+        rag_ans, rag_lat, _ = safe_rag(q)
+
+        gen_llm_lat.append(llm_lat)
+        gen_rag_lat.append(rag_lat)
+        parse_lat.extend(p_times)
+        retr_lat.extend(r_times)
+
+        # Hallucination
+        if detect_hallucination_from_answer(rep_retrieved, llm_ans or ""):
+            stats["hallucination_llm_only"] += 1
+        if detect_hallucination_from_answer(rep_retrieved, rag_ans or ""):
+            stats["hallucination_rag"] += 1
+
+        # Completeness
+        stats["completeness_llm_only"] += completeness_fraction(rep_retrieved, llm_ans or "")
+        stats["completeness_rag"] += completeness_fraction(rep_retrieved, rag_ans or "")
+
         results.append({
             "question": q,
             "expected": expected,
-            "llm_only_answer": llm_final,
-            "rag_answer": rag_final
+            "retrieved": rep_retrieved,
+            "llm_only": llm_ans,
+            "rag": rag_ans
         })
 
-
-    # ----------------------------------------------------------
-    # SUMMARY
-    # ----------------------------------------------------------
     summary = {
-        "total_questions": metrics["total"],
-
-        "accuracy_llm_only": round(100 * metrics["accuracy_llm_only"] / metrics["total"], 2),
-        "accuracy_rag": round(100 * metrics["accuracy_rag"] / metrics["total"], 2),
-
-        "hallucination_llm_only": round(100 * metrics["hallucination_llm_only"] / metrics["total"], 2),
-        "hallucination_rag": round(100 * metrics["hallucination_rag"] / metrics["total"], 2),
-
-        "consistency_llm_only": round(100 * metrics["consistency_llm_only"] / metrics["total"], 2),
-        "consistency_rag": round(100 * metrics["consistency_rag"] / metrics["total"], 2),
-
-        "latency_mean_llm_only": round(sum(metrics["latencies_llm_only"]) / len(metrics["latencies_llm_only"]), 3),
-        "latency_mean_rag": round(sum(metrics["latencies_rag"]) / len(metrics["latencies_rag"]), 3),
-
-        "retrieval_success_rate": round(100 * metrics["retrieval_success"] / metrics["total"], 2),
-
-        "completeness_llm_only": round(metrics["completeness_llm_only"] / metrics["total"], 2),
-        "completeness_rag": round(metrics["completeness_rag"] / metrics["total"], 2)
+        "total_questions": stats["total"],
+        "retrieval_accuracy_percent": round(100 * stats["correct_retrieval"] / stats["total"], 2),
+        "retrieval_success_percent": round(100 * stats["retrieval_success"] / stats["total"], 2),
+        "parser_consistency_percent": round(100 * stats["parser_consistency"] / stats["total"], 2),
+        "retrieval_consistency_percent": round(100 * stats["retrieval_consistency"] / stats["total"], 2),
+        "hallucination_rate_llm_only_percent": round(100 * stats["hallucination_llm_only"] / stats["total"], 2),
+        "hallucination_rate_rag_percent": round(100 * stats["hallucination_rag"] / stats["total"], 2),
+        "avg_completeness_llm_only": round(stats["completeness_llm_only"] / stats["total"], 3),
+        "avg_completeness_rag": round(stats["completeness_rag"] / stats["total"], 3),
+        "avg_parse_latency": round(sum(parse_lat) / len(parse_lat), 4),
+        "avg_retrieve_latency": round(sum(retr_lat) / len(retr_lat), 4),
+        "avg_llm_generate_latency": round(sum(gen_llm_lat) / len(gen_llm_lat), 4),
+        "avg_rag_generate_latency": round(sum(gen_rag_lat) / len(gen_rag_lat), 4)
     }
 
-    # write CSV
-    OUTPUT_PATH.parent.mkdir(exist_ok=True)
-    with open(OUTPUT_PATH, "w", encoding="utf-8", newline="") as f:
+    OUTPUT_CSV.parent.mkdir(parents=True, exist_ok=True)
+
+    with open(OUTPUT_CSV, "w", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=results[0].keys())
         writer.writeheader()
         writer.writerows(results)
 
-    # write summary JSON
-    with open(SUMMARY_PATH, "w", encoding="utf-8") as f:
+    with open(SUMMARY_JSON, "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2)
 
-    print("\n=========== FINAL SUMMARY ===========")
+    print("\n=== FINAL SUMMARY ===")
     print(json.dumps(summary, indent=2))
+    print(f"\nSaved: {OUTPUT_CSV}")
+    print(f"Saved: {SUMMARY_JSON}")
 
 
 if __name__ == "__main__":
