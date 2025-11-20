@@ -3,8 +3,10 @@
     {
       "Platform": "Dropbox",
       "PlanName": "Plus",
+      "Price": 15.99,
+      "PlanType": "Monthly",
       "Storage": "2 TB",
-      "MonthlyPrice": 15.99
+      "FeatureMatch": null
     }
   ],
 
@@ -12,14 +14,18 @@
     {
       "Platform": "Google Drive",
       "PlanName": "Premium (2 TB)",
+      "Price": 13.99,
+      "PlanType": "Monthly",
       "Storage": "2 TB",
-      "MonthlyPrice": 13.99
+      "FeatureMatch": null
     },
     {
       "Platform": "Google Drive",
       "PlanName": "Google AI Pro (2 TB)",
+      "Price": 26.99,
+      "PlanType": "Monthly",
       "Storage": "2 TB",
-      "MonthlyPrice": 26.99
+      "FeatureMatch": "AI"
     }
   ],
 
@@ -27,38 +33,48 @@
     {
       "Platform": "OneDrive",
       "PlanName": "Microsoft 365 Family",
-      "Feature": "ransomware protection"
+      "Price": 14.5,
+      "PlanType": "Monthly",
+      "Storage": "6 TB",
+      "FeatureMatch": "ransomware"
     },
     {
       "Platform": "OneDrive",
       "PlanName": "Microsoft 365 Personal",
-      "Feature": "ransomware protection"
+      "Price": 11.5,
+      "PlanType": "Monthly",
+      "Storage": "1 TB",
+      "FeatureMatch": "ransomware"
     },
     {
       "Platform": "OneDrive",
       "PlanName": "Microsoft 365 Basic",
-      "Feature": "ransomware protection"
+      "Price": 0.0,
+      "PlanType": "Monthly",
+      "Storage": "5 GB",
+      "FeatureMatch": "ransomware"
     }
   ],
 
   "I want a cloud storage plan that costs under $5 per month": [
     {
       "Platform": "Google Drive",
-      "PlanName": "Basic (100 GB)",
-      "MonthlyPrice": 2.79
+      "PlanName": "Basic(15G)",
+      "Price": 0.0,
+      "PlanType": "Monthly",
+      "Storage": "15 GB",
+      "FeatureMatch": null
     }
   ],
 
   "Are there any plans with more than 3 TB of storage": [
     {
-      "Platform": "Dropbox",
-      "PlanName": "Standard",
-      "Storage": "5 TB"
-    },
-    {
-      "Platform": "Dropbox",
-      "PlanName": "Advanced",
-      "Storage": "15 TB"
+      "Platform": "OneDrive",
+      "PlanName": "Microsoft 365 Family",
+      "Price": 14.5,
+      "PlanType": "Monthly",
+      "Storage": "6 TB",
+      "FeatureMatch": null
     }
   ],
 
@@ -66,22 +82,10 @@
     {
       "Platform": "Dropbox",
       "PlanName": "Plus",
-      "Feature": "Edit PDFs"
-    },
-    {
-      "Platform": "Dropbox",
-      "PlanName": "Professional",
-      "Feature": "Edit PDFs"
-    },
-    {
-      "Platform": "Dropbox",
-      "PlanName": "Standard",
-      "Feature": "Edit PDFs"
-    },
-    {
-      "Platform": "Dropbox",
-      "PlanName": "Advanced",
-      "Feature": "Edit PDFs"
+      "Price": 15.99,
+      "PlanType": "Monthly",
+      "Storage": "2 TB",
+      "FeatureMatch": "PDF"
     }
   ],
 
@@ -89,7 +93,10 @@
     {
       "Platform": "Box",
       "PlanName": "Individual",
-      "AnnualPrice": 0
+      "Price": 0.0,
+      "PlanType": "Annual",
+      "Storage": "10 GB",
+      "FeatureMatch": null
     }
   ],
 
@@ -97,26 +104,32 @@
     {
       "Platform": "Dropbox",
       "PlanName": "Plus",
-      "MonthlyPrice": 15.99,
-      "Feature": "Edit PDFs"
+      "Price": 15.99,
+      "PlanType": "Monthly",
+      "Storage": "2 TB",
+      "FeatureMatch": "PDF editing"
     }
   ],
 
   "I need at least 1 TB of storage but my budget is below $15 monthly": [
     {
-      "Platform": "Google Drive",
-      "PlanName": "Basic (100 GB)",
-      "MonthlyPrice": 2.79,
-      "Storage": "100 GB"
+      "Platform": "OneDrive",
+      "PlanName": "Microsoft 365 Personal",
+      "Price": 11.5,
+      "PlanType": "Monthly",
+      "Storage": "1 TB",
+      "FeatureMatch": null
     }
   ],
 
   "Which Google Drive plan over 1 TB includes AI features and costs less than $30 monthly": [
     {
       "Platform": "Google Drive",
-      "PlanName": "Google AI Pro (2 TB)",
-      "MonthlyPrice": 26.99,
-      "Feature": "AI"
+      "PlanName": "Premium (2 TB)",
+      "Price": 13.99,
+      "PlanType": "Monthly",
+      "Storage": "2 TB",
+      "FeatureMatch": "AI"
     }
   ],
 
@@ -124,7 +137,10 @@
     {
       "Platform": "OneDrive",
       "PlanName": "Microsoft 365",
-      "MonthlyPrice": 0
+      "Price": 0.0,
+      "PlanType": "Monthly",
+      "Storage": "5 GB",
+      "FeatureMatch": null
     }
   ],
 
@@ -132,8 +148,10 @@
     {
       "Platform": "Google Drive",
       "PlanName": "Basic (100 GB)",
+      "Price": 2.79,
+      "PlanType": "Monthly",
       "Storage": "100 GB",
-      "MonthlyPrice": 2.79
+      "FeatureMatch": null
     }
   ],
 
@@ -141,7 +159,10 @@
     {
       "Platform": "Dropbox",
       "PlanName": "Advanced",
-      "Storage": "15 TB"
+      "Price": 24.99,
+      "PlanType": "Monthly",
+      "Storage": "15 TB",
+      "FeatureMatch": null
     }
   ],
 
@@ -149,7 +170,10 @@
     {
       "Platform": "Box",
       "PlanName": "Individual",
-      "MonthlyPrice": 0
+      "Price": 0.0,
+      "PlanType": "Annual",
+      "Storage": "10 GB",
+      "FeatureMatch": null
     }
   ],
 
@@ -157,7 +181,10 @@
     {
       "Platform": "Google Drive",
       "PlanName": "Basic (100 GB)",
-      "MonthlyPrice": 2.79
+      "Price": 2.79,
+      "PlanType": "Monthly",
+      "Storage": "100 GB",
+      "FeatureMatch": null
     }
   ]
 }
