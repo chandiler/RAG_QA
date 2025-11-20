@@ -1,6 +1,3 @@
-# evaluation/evaluate_accuracy.py
-# Fully patched evaluation script following Sweatha's logic
-# Safe type handling, correct metrics, robust execution
 
 import sys
 import os
